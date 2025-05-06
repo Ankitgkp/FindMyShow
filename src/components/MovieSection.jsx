@@ -1,25 +1,24 @@
-import React from 'react'
+import React from "react";
 
 const MovieSection = ({ title, movies }) => {
     return (
-        <div className="mb-10 ml-30">
-            <h2 className="text-white text-xl font-semibold mb-4">{title}</h2>
-            <div className="flex space-x-4 overflow-x-auto no-scrollbar">
+        <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-white mb-4">{title}</h2>
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide">
                 {movies.map((movie, index) => (
-                    <div
-                        key={index}
-                        className="w-[160px] h-[240px] flex-shrink-0 overflow-hidden rounded"
-                    >
+                    <div key={index} className="min-w-[150px] text-center text-white">
                         <img
                             src={movie.poster}
                             alt={movie.title}
-                            className="w-full h-full object-cover rounded"
+                            className="w-[150px] h-[220px] object-cover rounded-md"
                         />
+                        <p className="mt-2 text-sm font-medium">{movie.title}</p>
+                        <p className="text-xs text-gray-400">{movie.year}</p>
                     </div>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default MovieSection
+export default MovieSection;
