@@ -30,12 +30,12 @@ const Home = () => {
                     year: movie.release_date?.slice(0, 4),
                     poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
                 })));
-                setTopRated(data1.results.map(movie => ({
+                setTopRated(data2.results.map(movie => ({
                     title: movie.title,
                     year: movie.release_date?.slice(0, 4),
                     poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
                 })));
-                setActionMovies(data1.results.map(movie => ({
+                setActionMovies(data3.results.map(movie => ({
                     title: movie.title,
                     year: movie.release_date?.slice(0, 4),
                     poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
