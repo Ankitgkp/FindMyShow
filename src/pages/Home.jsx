@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import MovieSection from "../components/MovieSection";
 
 const Home = () => {
@@ -46,27 +45,17 @@ const Home = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen bg-[#0f1115]">
-                <motion.div
-                    className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                ></motion.div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
             </div>
         );
     }
 
     return (
-        <motion.div
-            className="bg-[#0f1115] p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-        >
+        <div className="bg-[#0f1115] p-6">
             <MovieSection title="Trending Movies" movies={trending} />
             <MovieSection title="Top Rated Movies" movies={topRated} />
             <MovieSection title="Action Movies" movies={actionMovies} />
-        </motion.div>
+        </div>
     );
 }
 

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const MovieSection = ({ title, movies }) => {
@@ -118,27 +117,14 @@ const MovieSection = ({ title, movies }) => {
                 <div className="group relative overflow-hidden">
                     <div
                         ref={scrollContainerRef}
-                        className="flex gap-4 overflow-x-auto scrollbar-hide py-2 scroll-smooth"
+                        className="flex gap-4 overflow-x-auto no-scrollbar py-2 scroll-smooth"
                         style={{ scrollBehavior: 'smooth' }}
                     >
                         {movies.map((movie, index) => (
-                            <motion.div
+                            <div
                                 key={index}
-                                className="min-w-[150px] text-center text-white cursor-pointer"
+                                className="min-w-[150px] text-center text-white cursor-pointer hover:opacity-80 hover:-translate-y-1 transition"
                                 onClick={() => handleMovieClick(movie.id)}
-                                whileHover={{
-                                    scale: 1.05,
-                                    y: -5,
-                                    transition: { duration: 0.2 }
-                                }}
-                                whileTap={{ scale: 0.98 }}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: index * 0.05,
-                                    ease: "easeOut"
-                                }}
                             >
                                 <div className="relative w-[150px] h-[220px] overflow-hidden rounded-md">
                                     <img
@@ -152,7 +138,7 @@ const MovieSection = ({ title, movies }) => {
                                 </div>
                                 <p className="mt-2 text-sm font-medium truncate">{movie.title}</p>
                                 <p className="text-xs text-gray-400">{movie.year}</p>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import { formatRuntime, formatMoney, getTopProviders } from "../utils/movieUtils";
 import MovieHero from "../components/movie/MovieHero";
 import LanguageSection from "../components/movie/LanguageSection";
@@ -65,12 +64,7 @@ const MovieDetails = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen bg-[#0f1115]">
-                <motion.div
-                    className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                ></motion.div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
             </div>
         );
     }
@@ -94,26 +88,14 @@ const MovieDetails = () => {
         movie.videos?.results?.[0];
 
     return (
-        <motion.div
-            key={id}
-            className="bg-[#0f1115] text-white min-h-screen pb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-        >
+        <div className="bg-[#0f1115] text-white min-h-screen pb-12">
             {/* Back button */}
-            <motion.button
+            <button
                 className="fixed top-20 left-4 z-40 bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.7)] text-white p-3 rounded-full shadow-lg"
                 onClick={handleBackClick}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
             >
                 <FaArrowLeft />
-            </motion.button>
+            </button>
 
             {/* Hero section with backdrop */}
             <MovieHero
@@ -124,12 +106,7 @@ const MovieDetails = () => {
 
             {/* Movie info sections */}
             <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <motion.div
-                    className="col-span-1 md:col-span-2"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                >
+                <div className="col-span-1 md:col-span-2">
                     {/* Languages section */}
                     <LanguageSection languages={languages} />
 
@@ -143,22 +120,18 @@ const MovieDetails = () => {
                         formatRuntime={formatRuntime}
                         formatMoney={formatMoney}
                     />
-                </motion.div>
+                </div>
 
                 {/* Watch providers section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                >
+                <div>
                     <StreamingSection
                         watchProviders={watchProviders}
                         getTopProviders={getTopProviders}
                         movie={movie}
                     />
-                </motion.div>
+                </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
