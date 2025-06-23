@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import MovieDetails from './pages/MovieDetails';
+import Search from './pages/Search';
 
 // This component is needed for AnimatePresence to work with Routes
 function AnimatedRoutes() {
@@ -15,6 +16,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </AnimatePresence>
   );

@@ -4,7 +4,7 @@ const QuickProviders = ({ watchProviders }) => {
     if (!watchProviders || !watchProviders.flatrate || watchProviders.flatrate.length === 0) {
         return null;
     }
-    
+
     return (
         <div className="mb-6">
             <h3 className="text-lg font-bold mb-2 text-cyan-500">Available On</h3>

@@ -11,7 +11,7 @@ const MovieOverview = ({ movie, director, formatRuntime, formatMoney, watchProvi
                     <h2 className="text-2xl font-semibold mb-4">Synopsis</h2>
                     <p className="text-gray-300">{movie.overview}</p>
                 </div>
-                
+
                 <MovieDetailsInfo
                     movie={movie}
                     director={director}
@@ -19,7 +19,7 @@ const MovieOverview = ({ movie, director, formatRuntime, formatMoney, watchProvi
                     formatMoney={formatMoney}
                 />
             </div>
-            
+
             <div>
                 <MovieStats movie={movie} />
                 <QuickProviders watchProviders={watchProviders} />

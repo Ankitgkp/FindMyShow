@@ -111,7 +111,7 @@ const MovieDetails = () => {
             {/* Content based on active tab */}
             <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
                 {activeTab === 'info' && (
-                    <MovieOverview 
+                    <MovieOverview
                         movie={movie}
                         director={director}
                         formatRuntime={formatRuntime}
@@ -119,11 +119,11 @@ const MovieDetails = () => {
                         watchProviders={watchProviders}
                     />
                 )}
-                
+
                 {activeTab === 'cast' && (
                     <CastSection cast={topCast} />
                 )}
-                
+
                 {activeTab === 'watch' && (
                     <StreamingSection
                         watchProviders={watchProviders}
@@ -131,7 +131,7 @@ const MovieDetails = () => {
                         movie={movie}
                     />
                 )}
-                
+
                 {activeTab === 'languages' && (
                     <LanguageSection languages={languages} />
                 )}
