@@ -1,80 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const MovieSection = ({ title, movies }) => {
     const navigate = useNavigate();
     const scrollContainerRef = useRef(null);
-
-    // Auto-scroll configuration
-    const autoScrollEnabled = movies.length > 5;
-    const scrollSpeed = 0.5; // pixels per frame
-    const scrollDelay = 3000; // ms before auto-scroll starts
-    const pauseOnHover = true;
-
-    // Auto-scroll functionality
-    useEffect(() => {
-        if (!autoScrollEnabled || !scrollContainerRef.current) return;
-
-        let animationId;
-        let scrolling = false;
-        let lastTimestamp = 0;
-        let hovering = false;
-
-        const container = scrollContainerRef.current;
-
-        const startScrolling = () => {
-            if (scrolling) return;
-
-            scrolling = true;
-            lastTimestamp = performance.now();
-
-            setTimeout(() => {
-                animationId = requestAnimationFrame(scroll);
-            }, scrollDelay);
-        };
-
-        const scroll = (timestamp) => {
-            if (!scrolling || hovering) {
-                animationId = requestAnimationFrame(scroll);
-                return;
-            }
-
-            const deltaTime = timestamp - lastTimestamp;
-            lastTimestamp = timestamp;
-
-            container.scrollLeft += scrollSpeed * deltaTime;
-
-            // Reset to beginning when reached end
-            if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 10) {
-                container.scrollLeft = 0;
-            }
-
-            animationId = requestAnimationFrame(scroll);
-        };
-
-        const handleMouseEnter = () => {
-            if (pauseOnHover) hovering = true;
-        };
-
-        const handleMouseLeave = () => {
-            hovering = false;
-        };
-
-        // Add event listeners
-        container.addEventListener('mouseenter', handleMouseEnter);
-        container.addEventListener('mouseleave', handleMouseLeave);
-
-        // Start scrolling after a delay
-        startScrolling();
-
-        // Clean up
-        return () => {
-            cancelAnimationFrame(animationId);
-            container.removeEventListener('mouseenter', handleMouseEnter);
-            container.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, [autoScrollEnabled, movies]);
 
     const handleMovieClick = (movieId) => {
         navigate(`/movie/${movieId}`);

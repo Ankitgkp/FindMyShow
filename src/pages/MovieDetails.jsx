@@ -80,7 +80,6 @@ const MovieDetails = () => {
     // Get director
     const director = movie.credits?.crew?.find(person => person.job === "Director");
 
-    // Get top cast (limit to 6)
     const topCast = movie.credits?.cast?.slice(0, 6) || [];
 
     // Get trailer
