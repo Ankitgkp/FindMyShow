@@ -2,12 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 import { FiMenu } from 'react-icons/fi'
 import { FiSearch } from 'react-icons/fi'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/clerk-react'
+import { clerkConfig } from '../config/clerk'
+import { useBookmarks } from '../contexts/BookmarksContext'
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [typingTimeout, setTypingTimeout] = useState(null)
     const navigate = useNavigate()
+    const { isSignedIn, user } = useUser()
+    const { bookmarkCount } = useBookmarks()
 
     const handleInputChange = (e) => {
         const value = e.target.value
@@ -18,7 +23,7 @@ function Navbar() {
         }
 
         if (value.trim().length > 2) {
-            // Navigate to search after 500ms of no typing
+
             const timeout = setTimeout(() => {
                 navigate(`/search?query=${encodeURIComponent(value.trim())}`)
             }, 500)
@@ -26,7 +31,7 @@ function Navbar() {
         }
     }
 
-    // Clean up on unmount
+
     useEffect(() => {
         return () => {
             if (typingTimeout) {
@@ -46,11 +51,30 @@ function Navbar() {
                     <li className="text-white font-medium cursor-pointer">
                         <Link to="/">Home</Link>
                     </li>
-                    <li className="cursor-pointer">New</li>
-                    <li className="cursor-pointer">Popular</li>
-                    <li className="cursor-pointer">Lists</li>
-                    <li className="cursor-pointer">Sports</li>
-                    <li className="cursor-pointer">Guide</li>
+                    <li className="cursor-pointer">
+                        <Link to="/new">New</Link>
+                    </li>
+                    <li className="cursor-pointer">
+                        <Link to="/popular">Popular</Link>
+                    </li>
+                    <li className="cursor-pointer">
+                        <Link to="/lists">Lists</Link>
+                    </li>
+                    {isSignedIn && (
+                        <li className="cursor-pointer relative">
+                            <Link to="/bookmarks" className="flex items-center gap-1">
+                                My Bookmarks
+                                {bookmarkCount > 0 && (
+                                    <span className="bg-cyan-500 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                                        {bookmarkCount}
+                                    </span>
+                                )}
+                            </Link>
+                        </li>
+                    )}
+                    <li className="cursor-pointer">
+                        <Link to="/sports">Sports</Link>
+                    </li>
                 </ul>
             </div>
 
@@ -68,9 +92,30 @@ function Navbar() {
                     </div>
                 </div>
 
-                <button className="bg-[#1d232f] text-white text-sm px-4 py-1.5 rounded-md hover:bg-[#2a303c]">
-                    Sign In
-                </button>
+                {!isSignedIn ? (
+                    <div className="flex gap-2">
+                        <SignInButton mode="modal" {...clerkConfig.signIn}>
+                            <button className="bg-[#1d232f] text-white text-sm px-4 py-1.5 rounded-md hover:bg-[#2a303c]">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                        <SignUpButton mode="modal" {...clerkConfig.signUp}>
+                            <button className="bg-cyan-500 text-white text-sm px-4 py-1.5 rounded-md hover:bg-cyan-600">
+                                Sign Up
+                            </button>
+                        </SignUpButton>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-300 hidden md:block">
+                            Welcome, {user?.firstName || user?.emailAddresses[0]?.emailAddress?.split('@')[0]}
+                        </span>
+                        <UserButton
+                            afterSignOutUrl="/"
+                            appearance={clerkConfig.appearance}
+                        />
+                    </div>
+                )}
 
                 <FiSearch
                     onClick={() => navigate('/search')}
@@ -82,7 +127,6 @@ function Navbar() {
                 />
             </div>
 
-            {/* Mobile menu */}
             {menuOpen && (
                 <div className="absolute top-full left-0 right-0 bg-[#0a0d12] z-50 py-4 md:hidden">
                     <div className="px-6 mb-4">
@@ -104,13 +148,28 @@ function Navbar() {
                             <Link to="/" className="block py-1 text-white font-medium">Home</Link>
                         </li>
                         <li onClick={() => setMenuOpen(false)}>
-                            <Link to="/" className="block py-1">New</Link>
+                            <Link to="/new" className="block py-1">New</Link>
                         </li>
                         <li onClick={() => setMenuOpen(false)}>
-                            <Link to="/" className="block py-1">Popular</Link>
+                            <Link to="/popular" className="block py-1">Popular</Link>
                         </li>
                         <li onClick={() => setMenuOpen(false)}>
-                            <Link to="/" className="block py-1">Lists</Link>
+                            <Link to="/lists" className="block py-1">Lists</Link>
+                        </li>
+                        {isSignedIn && (
+                            <li onClick={() => setMenuOpen(false)}>
+                                <Link to="/bookmarks" className="flex items-center justify-between py-1">
+                                    My Bookmarks
+                                    {bookmarkCount > 0 && (
+                                        <span className="bg-cyan-500 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                                            {bookmarkCount}
+                                        </span>
+                                    )}
+                                </Link>
+                            </li>
+                        )}
+                        <li onClick={() => setMenuOpen(false)}>
+                            <Link to="/sports" className="block py-1">Sports</Link>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { FaStar, FaPlay } from "react-icons/fa";
+import BookmarkButton from "../BookmarkButton";
 
 const MovieHero = ({ movie, formatRuntime, trailer }) => {
     return (
@@ -26,9 +27,16 @@ const MovieHero = ({ movie, formatRuntime, trailer }) => {
                     />
 
                     <div className="flex-1 text-center md:text-left">
-                        <h1 className="text-3xl md:text-5xl font-bold mb-3">
-                            {movie.title} <span className="text-gray-400 font-normal">({movie.release_date?.slice(0, 4) || "N/A"})</span>
-                        </h1>
+                        <div className="flex items-start justify-between mb-3">
+                            <h1 className="text-3xl md:text-5xl font-bold">
+                                {movie.title} <span className="text-gray-400 font-normal">({movie.release_date?.slice(0, 4) || "N/A"})</span>
+                            </h1>
+                            <BookmarkButton
+                                movie={movie}
+                                className="ml-4"
+                                size="lg"
+                            />
+                        </div>
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-4">
                             <div className="flex items-center gap-2 bg-[rgba(255,255,255,0.1)] px-3 py-1 rounded-full">

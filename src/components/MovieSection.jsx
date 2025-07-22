@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import BookmarkButton from "./BookmarkButton";
 
 const MovieSection = ({ title, movies }) => {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const MovieSection = ({ title, movies }) => {
         navigate(`/movie/${movieId}`);
     };
 
-    // Scroll functions for buttons
+
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollBy({
@@ -33,7 +34,6 @@ const MovieSection = ({ title, movies }) => {
         <div className="mb-8 relative">
             <h2 className="text-2xl font-semibold text-white mb-4">{title}</h2>
 
-            {/* Navigation buttons */}
             <div className="relative">
                 <button
                     onClick={scrollLeft}
@@ -43,7 +43,6 @@ const MovieSection = ({ title, movies }) => {
                     <FaChevronLeft />
                 </button>
 
-                {/* Main container - adding group for button visibility */}
                 <div className="group relative overflow-hidden">
                     <div
                         ref={scrollContainerRef}
@@ -65,6 +64,18 @@ const MovieSection = ({ title, movies }) => {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end p-2">
                                         <span className="text-xs font-medium text-white">View Details</span>
                                     </div>
+
+                                    <BookmarkButton
+                                        movie={{
+                                            id: movie.id,
+                                            title: movie.title,
+                                            poster_path: movie.poster_path || movie.poster?.replace('https://image.tmdb.org/t/p/w500', ''),
+                                            release_date: movie.release_date,
+                                            vote_average: movie.vote_average
+                                        }}
+                                        className="absolute top-2 right-2"
+                                        size="sm"
+                                    />
                                 </div>
                                 <p className="mt-2 text-sm font-medium truncate">{movie.title}</p>
                                 <p className="text-xs text-gray-400">{movie.year}</p>
@@ -72,7 +83,6 @@ const MovieSection = ({ title, movies }) => {
                         ))}
                     </div>
 
-                    {/* Gradient overlays to indicate more content */}
                     <div className="absolute top-0 left-0 bottom-0 w-8 bg-gradient-to-r from-[#0f1115] to-transparent pointer-events-none"></div>
                     <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-[#0f1115] to-transparent pointer-events-none"></div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { movieAPI } from "../api/movieAPI";
 
 const Search = () => {
     const location = useLocation();
@@ -13,9 +14,6 @@ const Search = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 
-    const api_key = '6202f94b6418df7cceae36ed85dbb19c';
-
-    // Handle URL query parameter changes
     useEffect(() => {
         if (query) {
             searchMovies(query, 1);
@@ -24,17 +22,12 @@ const Search = () => {
         }
     }, [query]);
 
-    // No need for search handler methods as search is handled in the Navbar
-
     const searchMovies = async (searchTerm, pageNum = 1) => {
         if (!searchTerm) return;
 
         setLoading(true);
         try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${encodeURIComponent(searchTerm)}&page=${pageNum}`
-            );
-            const data = await response.json();
+            const data = await movieAPI.searchMovies(searchTerm, pageNum);
 
             const formattedResults = data.results.map(movie => ({
                 id: movie.id,
@@ -48,7 +41,7 @@ const Search = () => {
             }));
 
             setSearchResults(formattedResults);
-            setTotalPages(data.total_pages > 100 ? 100 : data.total_pages); // TMDB API limits to 100 pages
+            setTotalPages(data.total_pages > 100 ? 100 : data.total_pages);
             setPage(pageNum);
         } catch (error) {
             console.error("Error searching movies:", error);
@@ -73,7 +66,6 @@ const Search = () => {
         }
     };
 
-    // No cleanup needed
 
     return (
         <div className="bg-[#0f1115] min-h-screen text-white p-6">
@@ -99,7 +91,6 @@ const Search = () => {
                     )}
                 </div>
 
-                {/* Search results */}
                 {!loading && searchResults.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
                         {searchResults.map((movie) => (
@@ -127,7 +118,6 @@ const Search = () => {
                     </div>
                 )}
 
-                {/* Pagination */}
                 {totalPages > 1 && !loading && (
                     <div className="flex justify-center mt-10 gap-2">
                         <button
