@@ -16,7 +16,6 @@ export const formatMoney = (value) => {
   }).format(value);
 };
 
-// Popular OTT platforms to prioritize in display
 export const popularOttPlatforms = [
   10, // Amazon Prime
   8, // Netflix
@@ -30,28 +29,22 @@ export const popularOttPlatforms = [
   531, // Paramount Plus
 ];
 
-// Function to filter and sort providers by popularity
 export const getTopProviders = (providers, maxCount = 5) => {
   if (!providers || providers.length === 0) return [];
 
-  // Sort by popular platforms first, then alphabetically
   return [...providers]
     .sort((a, b) => {
       const aPopIndex = popularOttPlatforms.indexOf(a.provider_id);
       const bPopIndex = popularOttPlatforms.indexOf(b.provider_id);
 
-      // If both are popular platforms, sort by order in popularOttPlatforms
       if (aPopIndex !== -1 && bPopIndex !== -1) {
         return aPopIndex - bPopIndex;
       }
 
-      // If only a is popular, it comes first
       if (aPopIndex !== -1) return -1;
 
-      // If only b is popular, it comes first
       if (bPopIndex !== -1) return 1;
 
-      // If neither is popular, sort alphabetically
       return a.provider_name.localeCompare(b.provider_name);
     })
     .slice(0, maxCount);
